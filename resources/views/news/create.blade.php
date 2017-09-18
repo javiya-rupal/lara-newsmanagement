@@ -27,5 +27,6 @@ Add New News
 		<input required="required" value="{{ old('photo_image') }}" type="file" name = "photo_image"class="form-control" />
 	</div>
 	<input type="submit" name='publish' class="btn btn-success" value = "Publish"/>
+	<input type="submit" name='publish_and_add' class="btn btn-success" value = "Publish and Add"/>
 </form>
 @endsection

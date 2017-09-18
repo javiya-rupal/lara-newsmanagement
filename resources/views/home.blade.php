@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('title')
-{{$title}}
+	Latest News
 @endsection
 
 @section('content')

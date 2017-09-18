@@ -18,8 +18,7 @@ class NewsController extends Controller {
 	public function index()
 	{
 		$news = News::where('active', '1')->orderBy('created_at','desc')->paginate(10);
-		$title = 'Latest News';
-		return view('home')->withNews($news)->withTitle($title);
+		return view('home')->withNews($news);
 	}
 
 	/**
@@ -66,21 +65,14 @@ class NewsController extends Controller {
 		if($duplicate)
 		{
 			return redirect('new-news')->withErrors('Title already exists.')->withInput();
-		}	
-		
-		$news->author_id = $request->user()->id;
-		if($request->has('save'))
-		{
-			$news->active = 0;
-			$message = 'News saved successfully';			
-		}			
-		else 
-		{
-			$news->active = 1;
-			$message = 'News published successfully';
 		}
-		$news->save();
-		return redirect('new-news')->withMessage($message);
+
+        $news->author_id = $request->user()->id;
+        $news->active = 1;
+        $news->save();
+
+        $redirectRoute = ($request->has('publish')) ? '/' : 'new-news';
+        return redirect($redirectRoute)->withMessage("News published successfully");
 	}
 
 	/**
@@ -98,7 +90,7 @@ class NewsController extends Controller {
 			if($news->active == false)
 				return redirect('/')->withErrors('requested page not found');
 		}
-		else 
+		else
 		{
 			return redirect('/')->withErrors('requested page not found');
 		}
